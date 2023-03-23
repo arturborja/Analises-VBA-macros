@@ -1,0 +1,70 @@
+Sub Bse_clientes()
+'
+' Bse_clientes Macro
+'
+
+'
+    Cells.Select
+    Selection.AutoFilter
+    ActiveSheet.Range("$A$1:$E$2000").AutoFilter Field:=5, Criteria1:="-"
+    Rows("2:2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Delete Shift:=xlUp
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A$1:$E$2000").AutoFilter Field:=5
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = ""
+    Range("F3").Select
+    ActiveWorkbook.Worksheets("Worksheet").AutoFilter.Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Worksheet").AutoFilter.Sort.SortFields.Add2 Key:= _
+        Range("B1:B139"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption _
+        :=xlSortNormal
+    With ActiveWorkbook.Worksheets("Worksheet").AutoFilter.Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "=IF(RC[-4]=R[1]C[-4],""igual"",""Diferente"")"
+    Range("F2").Select
+    Selection.AutoFill Destination:=Range("F2:F350")
+    Range("F2:F350").Select
+    Cells.Select
+    Selection.AutoFilter
+    Selection.AutoFilter
+    ActiveSheet.Range("$A$1:$F$2000").AutoFilter Field:=6, Criteria1:="=igual", _
+        Operator:=xlOr, Criteria2:="="
+    Rows("2:2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A$1:$F$2000").AutoFilter Field:=6
+    Columns("F:F").Select
+    Selection.Delete Shift:=xlToLeft
+End Sub
+
+
+
+
+
+
