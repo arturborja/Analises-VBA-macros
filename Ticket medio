@@ -1,0 +1,91 @@
+Sub Como_extrair_ticket_medio()
+'
+' Como_extrair_ticket_medio Macro
+'
+
+'
+    Columns("D:D").Select
+    Selection.Replace What:=",", Replacement:=",", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False, FormulaVersion:=xlReplaceFormula2
+    Columns("A:A").Select
+    Selection.Replace What:="/", Replacement:="/", LookAt:=xlPart, _
+        SearchOrder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False, FormulaVersion:=xlReplaceFormula2
+    Cells.Select
+    Selection.AutoFilter
+    ActiveSheet.Range("$A$1:$E$1000").AutoFilter Field:=5, Criteria1:="-"
+    Rows("2:2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Delete Shift:=xlUp
+    Selection.Delete Shift:=xlUp
+    ActiveSheet.Range("$A$1:$E$1000").AutoFilter Field:=5
+    Cells.Select
+    Application.CutCopyMode = False
+    Sheets.Add
+    ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
+        "Worksheet!R1C1:R65536C5", Version:=xlPivotTableVersion10).CreatePivotTable _
+        TableDestination:="Planilha1!R3C1", TableName:="Tabela dinâmica1", _
+        DefaultVersion:=xlPivotTableVersion10
+    Sheets("Planilha1").Select
+    Cells(3, 1).Select
+    With ActiveSheet.PivotTables("Tabela dinâmica1")
+        .ColumnGrand = True
+        .HasAutoFormat = True
+        .DisplayErrorString = False
+        .DisplayNullString = True
+        .EnableDrilldown = True
+        .ErrorString = ""
+        .MergeLabels = False
+        .NullString = ""
+        .PageFieldOrder = 2
+        .PageFieldWrapCount = 0
+        .PreserveFormatting = True
+        .RowGrand = True
+        .SaveData = True
+        .PrintTitles = False
+        .RepeatItemsOnEachPrintedPage = True
+        .TotalsAnnotation = False
+        .CompactRowIndent = 1
+        .InGridDropZones = True
+        .DisplayFieldCaptions = True
+        .DisplayMemberPropertyTooltips = False
+        .DisplayContextTooltips = True
+        .ShowDrillIndicators = True
+        .PrintDrillIndicators = False
+        .AllowMultipleFilters = True
+        .SortUsingCustomLists = True
+        .FieldListSortAscending = False
+        .ShowValuesRow = True
+        .CalculatedMembersInFilters = False
+        .RowAxisLayout xlTabularRow
+    End With
+    With ActiveSheet.PivotTables("Tabela dinâmica1").PivotCache
+        .RefreshOnFileOpen = False
+        .MissingItemsLimit = xlMissingItemsDefault
+    End With
+    ActiveSheet.PivotTables("Tabela dinâmica1").RepeatAllLabels xlRepeatLabels
+    ActiveSheet.PivotTables("Tabela dinâmica1").AddDataField ActiveSheet. _
+        PivotTables("Tabela dinâmica1").PivotFields("Número do pedido"), _
+        "Soma de Número do pedido", xlSum
+    ActiveSheet.PivotTables("Tabela dinâmica1").AddDataField ActiveSheet. _
+        PivotTables("Tabela dinâmica1").PivotFields("Valor total"), _
+        "Soma de Valor total", xlSum
+    With ActiveSheet.PivotTables("Tabela dinâmica1").DataPivotField
+        .Orientation = xlColumnField
+        .Position = 1
+    End With
+    With ActiveSheet.PivotTables("Tabela dinâmica1").PivotFields( _
+        "Soma de Número do pedido")
+        .Caption = "Contagem de Número do pedido"
+        .Function = xlCount
+    End With
+    Range("C10").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = _
+        "=GETPIVOTDATA(""Soma de Valor total"",R3C1)/GETPIVOTDATA(""Contagem de Número do pedido"",R3C1)"
+    Range("B10").Select
+    ActiveCell.FormulaR1C1 = "Ticket medio"
+    Range("B11").Select
+End Sub
